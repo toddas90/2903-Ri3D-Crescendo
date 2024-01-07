@@ -21,9 +21,15 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-    public static class IntakeConstants {
+  public static class IntakeConstants {
     public static final int kIntakeMotorPort = 10;
     public static final int kIntakeSpeed = 1;
+  }
+
+  public static class ArmConstants {
+    public static final int kArmMotorPort = 10;
+    public static final int kArmMotorSpeed = 1;
+    public static final int[] kArmEncoderPorts = new int[]{0, 1};
   }
 
   public static final class DriveConstants {
