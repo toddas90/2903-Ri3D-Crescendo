@@ -22,10 +22,10 @@ public final class Constants {
   }
 
   public static final class DriveConstants {
-    public static final int kFrontLeftMotorPort = 0;
-    public static final int kRearLeftMotorPort = 1;
-    public static final int kFrontRightMotorPort = 2;
-    public static final int kRearRightMotorPort = 3;
+    public static final int kFrontLeftMotorPort = 12;
+    public static final int kRearLeftMotorPort = 13;
+    public static final int kFrontRightMotorPort = 14;
+    public static final int kRearRightMotorPort = 15;
 
     public static final int[] kFrontLeftEncoderPorts = new int[] {0, 1};
     public static final int[] kRearLeftEncoderPorts = new int[] {2, 3};
