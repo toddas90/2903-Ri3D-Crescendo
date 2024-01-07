@@ -22,10 +22,10 @@ public final class Constants {
   }
 
   public static final class DriveConstants {
-    public static final int kFrontLeftMotorPort = 12;
-    public static final int kRearLeftMotorPort = 13;
-    public static final int kFrontRightMotorPort = 14;
-    public static final int kRearRightMotorPort = 15;
+    public static final int kFrontLeftMotorPort = 13;
+    public static final int kRearLeftMotorPort = 15;
+    public static final int kFrontRightMotorPort = 12;
+    public static final int kRearRightMotorPort = 14;
 
     public static final double kTrackWidth = 0.5;
     // Distance between centers of right and left wheels on robot

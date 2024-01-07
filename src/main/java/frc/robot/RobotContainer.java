@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final double DEADZONE_THRESH = 0.1;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -53,11 +54,15 @@ public class RobotContainer {
         new RunCommand(
             () ->
                 m_driveSubsystem.drive(
-                    -m_driverController.getLeftY(),
-                    -m_driverController.getRightX(),
-                    -m_driverController.getLeftX(),
+                    deadzone(m_driverController.getLeftY()),
+                    -deadzone(m_driverController.getRightX()),
+                    -deadzone(m_driverController.getLeftX()),
                     false),
             m_driveSubsystem));
+  }
+
+  private double deadzone(double val) {
+    return (Math.abs(val) > DEADZONE_THRESH) ? val : 0;
   }
 
   /**
@@ -67,6 +72,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    // return Autos.exampleAuto(m_exampleSubsystem);
+    return null;
   }
 }
