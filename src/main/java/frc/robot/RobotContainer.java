@@ -1,18 +1,18 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+// import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,10 +23,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final XboxController m_driverController =
+      new XboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -44,7 +45,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
     // Configure default commands
     // Set the default drive command to split-stick arcade drive
     m_driveSubsystem.setDefaultCommand(
@@ -58,15 +58,24 @@ public class RobotContainer {
                     -m_driverController.getLeftX(),
                     false),
             m_driveSubsystem));
+
+        // Drive at half speed when the right bumper is held
+    new JoystickButton(m_driverController, Button.kRightBumper.value)
+        .onTrue(new InstantCommand(() -> m_driveSubsystem.setMaxOutput(0.5)))
+        .onFalse(new InstantCommand(() -> m_driveSubsystem.setMaxOutput(1)));
+
+    // Configure Y button to intake inwards
+    new JoystickButton(m_driverController, Button.kY.value).whileTrue(runIntakeInwards());
+    
+    // Configure X button to intake outwards
+    new JoystickButton(m_driverController, Button.kX.value).whileTrue(runIntakeOutwards());
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+  public Command runIntakeInwards() {
+      return new RunCommand(() -> m_intakeSubsystem.runIntake(false), m_intakeSubsystem);
   }
+
+  public Command runIntakeOutwards() {
+      return new RunCommand(() -> m_intakeSubsystem.runIntake(true), m_intakeSubsystem);
+  }  
 }
