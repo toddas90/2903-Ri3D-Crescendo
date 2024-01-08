@@ -24,6 +24,8 @@ public final class Constants {
   public static class IntakeConstants {
     public static final int kIntakeMotorPort = 10;
     public static final int kIntakeSpeed = 1;
+    public static final int kIntakeSolenoidPort = 0;
+    public static final int kIntakeLimitSwitchPort = 0;
   }
 
   public static class ArmConstants {
