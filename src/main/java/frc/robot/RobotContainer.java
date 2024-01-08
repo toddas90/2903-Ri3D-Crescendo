@@ -3,11 +3,10 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -23,6 +22,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final double DEADZONE_THRESH = 0.1;
   
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -64,20 +64,17 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> m_driveSubsystem.setMaxOutput(0.5)))
         .onFalse(new InstantCommand(() -> m_driveSubsystem.setMaxOutput(1)));
 
-    // Configure Y button to intake inwards
-    new JoystickButton(m_driverController, Button.kY.value).whileTrue(runIntakeInwards());
+    // Configure Y button to intake inwards (fix later)
+    // new JoystickButton(m_driverController, Button.kY.value).whileTrue(runIntakeInwards());
     
-    // Configure X button to intake outwards
-    new JoystickButton(m_driverController, Button.kX.value).whileTrue(runIntakeOutwards());
-  }
+    // Configure X button to intake outwards (fix later)
+    // new JoystickButton(m_driverController, Button.kX.value).whileTrue(runIntakeOutwards());
 
-  public Command runIntakeInwards() {
-      return new RunCommand(() -> m_intakeSubsystem.runIntake(false), m_intakeSubsystem);
+    // Configure A button to test shooter (BAD, don't do this)
+    new JoystickButton(m_driverController, Button.kA.value)
+        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setShooterSpeed(1)))
+        .onFalse(new InstantCommand(() -> m_shooterSubsystem.stopShooter()));
   }
-  
-  public Command runIntakeOutwards() {
-      return new RunCommand(() -> m_intakeSubsystem.runIntake(true), m_intakeSubsystem);
-  }  
   
   private double deadzone(double val) {
     return (Math.abs(val) > DEADZONE_THRESH) ? val : 0;
