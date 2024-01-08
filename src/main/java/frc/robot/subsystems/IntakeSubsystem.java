@@ -1,17 +1,13 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorPort, MotorType.kBrushless); //needs to be changed for brushed motors
+  //private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorPort, MotorType.kBrushless); //needs to be changed for brushed motors
   private final DigitalInput m_limitSwitch = new DigitalInput(IntakeConstants.kIntakeLimitSwitchPort);
   
 
@@ -21,7 +17,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Intake Switch", getIntakeSwitch());
-    SmartDashboard.putNumber("Intake Speed", m_intakeMotor.getEncoder().getVelocity());
+    //SmartDashboard.putNumber("Intake Speed", m_intakeMotor.getEncoder().getVelocity());
   }
 
   /**
@@ -29,11 +25,11 @@ public class IntakeSubsystem extends SubsystemBase {
   * @param direction the direction the intake motor will run, true for intake, false for outtake
   */
   public void runIntake(boolean direction) {
-    m_intakeMotor.set(direction ? IntakeConstants.kIntakeSpeed : -IntakeConstants.kIntakeSpeed);
+    //m_intakeMotor.set(direction ? IntakeConstants.kIntakeSpeed : -IntakeConstants.kIntakeSpeed);
   }
 
   public void stopIntake() {
-    m_intakeMotor.set(0);
+    //m_intakeMotor.set(0);
   }
 
   /**

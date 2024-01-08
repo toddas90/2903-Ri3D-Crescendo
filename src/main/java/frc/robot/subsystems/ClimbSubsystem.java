@@ -1,36 +1,37 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ClimbConstants;
-import frc.robot.Constants.SolenoidState;
 
 public class ClimbSubsystem extends SubsystemBase {
-  private final Solenoid m_climbSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,ClimbConstants.kClimbSolenoidPort);
+  private final DoubleSolenoid m_climbSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,ClimbConstants.kClimbSolenoidLPort, ClimbConstants.kClimbSolenoidRPort);
 
-  public ClimbSubsystem() {}
+  public ClimbSubsystem() {
+    m_climbSolenoid.set(Value.kForward);
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Climb Solenoid", m_climbSolenoid.get());
+    SmartDashboard.putBoolean("Climb Solenoid", getClimbSolenoid());
   }
 
   public boolean getClimbSolenoid() {
-    return m_climbSolenoid.get();
+    return m_climbSolenoid.get() == Value.kForward;
+  }
+
+  public void toggleSolenoid() {
+    m_climbSolenoid.toggle();
   }
 
   public Command setClimbSolenoid(){
-    return new RunCommand(() -> m_climbSolenoid.set(!getClimbSolenoid()), this);
+    return new InstantCommand(() -> toggleSolenoid(), this);
   }
 
 }

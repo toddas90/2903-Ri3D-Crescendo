@@ -26,6 +26,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final double DEADZONE_THRESH = 0.1;
   
   /*command to run shooter then actuate solenoid 
@@ -102,7 +103,7 @@ public class RobotContainer {
 
     // Climb when up on the back button is pressed
     new JoystickButton(m_driverController, Button.kBack.value)
-        .onTrue(new InstantCommand(() -> m_climbSubsystem.setClimbSolenoid()));
+        .onTrue(m_climbSubsystem.setClimbSolenoid());
   }
   
   private double deadzone(double val) {

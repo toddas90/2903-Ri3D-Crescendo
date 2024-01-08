@@ -1,7 +1,8 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,22 +15,23 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SolenoidState;
 
 public class ShooterSubsystem extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  public ShooterSubsystem() {}
-
-  private final CANSparkMax m_shootertest = new CANSparkMax(0, MotorType.kBrushless);
+  //private final CANSparkMax m_shootertest = new CANSparkMax(0, MotorType.kBrushless);
   private final CANSparkMax m_shooterLeft = new CANSparkMax(ShooterConstants.kShooterMotorLeftPort, MotorType.kBrushless);
   private final CANSparkMax m_shooterRight = new CANSparkMax(ShooterConstants.kShooterMotorRightPort, MotorType.kBrushless);
 
-  private final Solenoid m_shooterSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, ShooterConstants.kShooterSolenoidPort);
+  private final DoubleSolenoid m_shooterSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ShooterConstants.kShooterSolenoidLPort, ShooterConstants.kShooterSolenoidRPort);
 
-  public void setTestShooterSpeed(double speed) {
-    m_shootertest.set(speed);
+  public ShooterSubsystem() {
+    m_shooterSolenoid.set(Value.kForward);
   }
 
-  public void stopTestShooter() {
-    m_shootertest.set(0);
-  }
+  // public void setTestShooterSpeed(double speed) {
+  //   m_shootertest.set(speed);
+  // }
+
+  // public void stopTestShooter() {
+  //   m_shootertest.set(0);
+  // }
 
   public void setShooterSpeed(double speed) {
     m_shooterLeft.set(speed);
@@ -43,9 +45,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setSolenoid(SolenoidState state) {
     if (state == SolenoidState.UP) {
-      m_shooterSolenoid.set(true);
+      m_shooterSolenoid.set(Value.kForward);
     } else {
-      m_shooterSolenoid.set(false);
+      m_shooterSolenoid.set(Value.kReverse);
     }
   }
 
@@ -53,9 +55,9 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Speed", m_shooterLeft.getEncoder().getVelocity());
-    SmartDashboard.putBoolean("Shooter Solenoid", m_shooterSolenoid.get());
+    SmartDashboard.putBoolean("Shooter Solenoid", m_shooterSolenoid.get() == Value.kForward);
 
-    SmartDashboard.putNumber("Test Shooter Speed", m_shootertest.getEncoder().getVelocity());
+    //SmartDashboard.putNumber("Test Shooter Speed", m_shootertest.getEncoder().getVelocity());
   }
 
   public Command runShooterWheels(){
