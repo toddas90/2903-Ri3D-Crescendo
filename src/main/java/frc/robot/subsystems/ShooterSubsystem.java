@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.SolenoidState;
 
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
@@ -40,8 +41,8 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterRight.set(0);
   }
 
-  public void setSolenoid(ShooterSolenoidState state) {
-    if (state == ShooterSolenoidState.UP) {
+  public void setSolenoid(SolenoidState state) {
+    if (state == SolenoidState.UP) {
       m_shooterSolenoid.set(true);
     } else {
       m_shooterSolenoid.set(false);
@@ -57,13 +58,7 @@ public class ShooterSubsystem extends SubsystemBase {
     return new RunCommand(() -> setShooterSpeed(ShooterConstants.kShooterSpeed), this);
   }
 
-  public Command setShooterSolenoid(ShooterSolenoidState state){
+  public Command setShooterSolenoid(SolenoidState state){
     return new RunCommand(() -> setSolenoid(state), this);
-  }
-
-  //enum class for shooter solenoid state
-  public enum ShooterSolenoidState {
-    UP,
-    DOWN
   }
 }

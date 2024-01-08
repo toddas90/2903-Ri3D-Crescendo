@@ -1,9 +1,8 @@
 package frc.robot;
 
+import frc.robot.subsystems.*;
+
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -13,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.SolenoidState;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,6 +25,7 @@ public class RobotContainer {
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   private final double DEADZONE_THRESH = 0.1;
   
   /*command to run shooter then actuate solenoid 
@@ -36,11 +37,11 @@ public class RobotContainer {
   */
   private final Command shootSequence = m_shooterSubsystem.runShooterWheels()
     .andThen(Commands.waitSeconds(1.0))
-    .andThen(m_shooterSubsystem.setShooterSolenoid(ShooterSubsystem.ShooterSolenoidState.UP))
+    .andThen(m_shooterSubsystem.setShooterSolenoid(SolenoidState.UP))
     .andThen(Commands.waitSeconds(1.0))
     .andThen(new InstantCommand(() -> m_shooterSubsystem.stopShooter())
-    .andThen(m_shooterSubsystem.setShooterSolenoid(ShooterSubsystem.ShooterSolenoidState.DOWN)));
-  
+    .andThen(m_shooterSubsystem.setShooterSolenoid(SolenoidState.DOWN)));
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController m_driverController =
       new XboxController(OperatorConstants.kDriverControllerPort);
@@ -98,6 +99,10 @@ public class RobotContainer {
     // Shoot sequence when A button is pressed
     new JoystickButton(m_driverController, Button.kA.value)
         .onTrue(shootSequence);
+
+    // Climb when up on the back button is pressed
+    new JoystickButton(m_driverController, Button.kBack.value)
+        .onTrue(new InstantCommand(() -> m_climbSubsystem.setClimbSolenoid()));
   }
   
   private double deadzone(double val) {

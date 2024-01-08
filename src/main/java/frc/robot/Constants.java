@@ -21,6 +21,10 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static class ClimbConstants {
+    public static final int kClimbSolenoidPort = 0;
+  }
+
   public static class IntakeConstants {
     public static final int kIntakeMotorPort = 10;
     public static final int kIntakeSpeed = 1;
@@ -71,5 +75,12 @@ public final class Constants {
     public static final double kPRearLeftVel = 0.5;
     public static final double kPFrontRightVel = 0.5;
     public static final double kPRearRightVel = 0.5;
+
+  }
+  
+  //enum class for shooter solenoid state
+  public enum SolenoidState {
+    UP,
+    DOWN
   }
 }
