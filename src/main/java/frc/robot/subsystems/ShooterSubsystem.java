@@ -40,8 +40,12 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterRight.set(0);
   }
 
-  public void setSolenoid(boolean state) {
-    m_shooterSolenoid.set(state);
+  public void setSolenoid(ShooterSolenoidState state) {
+    if (state == ShooterSolenoidState.UP) {
+      m_shooterSolenoid.set(true);
+    } else {
+      m_shooterSolenoid.set(false);
+    }
   }
 
   @Override
@@ -53,7 +57,13 @@ public class ShooterSubsystem extends SubsystemBase {
     return new RunCommand(() -> setShooterSpeed(ShooterConstants.kShooterSpeed), this);
   }
 
-  public Command setShooterSolenoid(boolean state){
+  public Command setShooterSolenoid(ShooterSolenoidState state){
     return new RunCommand(() -> setSolenoid(state), this);
+  }
+
+  //enum class for shooter solenoid state
+  public enum ShooterSolenoidState {
+    UP,
+    DOWN
   }
 }

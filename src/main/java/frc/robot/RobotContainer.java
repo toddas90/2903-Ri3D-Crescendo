@@ -5,11 +5,13 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -24,6 +26,20 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final double DEADZONE_THRESH = 0.1;
+  
+  /*command to run shooter then actuate solenoid 
+  * step 1: run shooter wheels
+  * step 2: wait for shooter to reach speed
+  * step 3: actuate solenoid
+  * step 4: wait for note to shoot
+  * step 5: stop shooter wheels and retract solenoid
+  */
+  private final Command shootSequence = m_shooterSubsystem.runShooterWheels()
+    .andThen(Commands.waitSeconds(1.0))
+    .andThen(m_shooterSubsystem.setShooterSolenoid(ShooterSubsystem.ShooterSolenoidState.UP))
+    .andThen(Commands.waitSeconds(1.0))
+    .andThen(new InstantCommand(() -> m_shooterSubsystem.stopShooter())
+    .andThen(m_shooterSubsystem.setShooterSolenoid(ShooterSubsystem.ShooterSolenoidState.DOWN)));
   
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController m_driverController =
@@ -74,10 +90,14 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> m_intakeSubsystem.runIntake(false)))
         .onFalse(new InstantCommand(() -> m_intakeSubsystem.stopIntake()));
 
-    // Shooter at 100% when A button is held
+    // // Shooter at 100% when A button is held
+    // new JoystickButton(m_driverController, Button.kA.value)
+    //     .onTrue(new InstantCommand(() -> m_shooterSubsystem.setTestShooterSpeed(1)))
+    //     .onFalse(new InstantCommand(() -> m_shooterSubsystem.stopTestShooter()));
+
+    // Shoot sequence when A button is pressed
     new JoystickButton(m_driverController, Button.kA.value)
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setTestShooterSpeed(1)))
-        .onFalse(new InstantCommand(() -> m_shooterSubsystem.stopTestShooter()));
+        .onTrue(shootSequence);
   }
   
   private double deadzone(double val) {
