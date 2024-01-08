@@ -4,25 +4,31 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.VisionNetParse.VisionData;
+import frc.robot.subsystems.VisionNetParse.AprilTagData;
+import frc.robot.subsystems.VisionNetParse.NoteData;
 
 public class VisionSubsystem extends SubsystemBase {
 
   private VisionNetParse parser;
 
-  /** Creates a new ExampleSubsystem. */
   public VisionSubsystem() {
     try {
+      // Start receiving vision data from the network
       parser = new VisionNetParse();
       parser.start();
     } catch (Exception e) {
-
+      // Something went wrong; no vision data is available :(
     }
   }
 
-  public VisionData getVisionData(int aprilIndex) {
-    return parser.getCurrData(aprilIndex);
+  // Note: if the AprilTag is not visible, the transform will be null
+  public AprilTagData getAprilTagPosition(int aprilIndex) {
+    return parser.curAprilTagData[aprilIndex];
+  }
+
+  // Note: if no note is visible, the bounds will be null
+  public NoteData getClosestNote(int aprilIndex) {
+    return parser.curNoteData;
   }
 }
