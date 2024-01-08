@@ -76,8 +76,8 @@ public class RobotContainer {
 
     // Shooter at 100% when A button is held
     new JoystickButton(m_driverController, Button.kA.value)
-        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setShooterSpeed(1)))
-        .onFalse(new InstantCommand(() -> m_shooterSubsystem.stopShooter()));
+        .onTrue(new InstantCommand(() -> m_shooterSubsystem.setTestShooterSpeed(1)))
+        .onFalse(new InstantCommand(() -> m_shooterSubsystem.stopTestShooter()));
   }
   
   private double deadzone(double val) {

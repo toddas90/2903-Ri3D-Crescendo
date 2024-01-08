@@ -24,7 +24,6 @@ public final class Constants {
   public static class IntakeConstants {
     public static final int kIntakeMotorPort = 10;
     public static final int kIntakeSpeed = 1;
-    public static final int kIntakeSolenoidPort = 0;
     public static final int kIntakeLimitSwitchPort = 0;
   }
 
@@ -32,14 +31,14 @@ public final class Constants {
     public static final int kArmMotorPort = 10;
     public static final int kArmMotorSpeed = 1;
     public static final int[] kArmEncoderPorts = new int[]{0, 1};
+    public static final int kArmSolenoidPort = 0;
   }
 
   public static class ShooterConstants {
     public static final int kShooterMotorLeftPort = 10;
-    public static final int kShooterMotorLeftSpeed = 1;
     public static final int kShooterMotorRightPort = 10;
-    public static final int kShooterMotorRightSpeed = 1;
-    //define solenoid or limit switch once they decide which one to use
+    public static final int kShooterSpeed = 1;
+    public static final int kShooterSolenoidPort = 0;
   }
 
   public static final class DriveConstants {
