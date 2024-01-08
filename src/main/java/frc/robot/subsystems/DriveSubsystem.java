@@ -49,7 +49,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    // Update the odometry in the periodic block
+    m_odometry.update(
+        m_gyro.getRotation2d(),
+        new MecanumDriveWheelPositions(
+            m_frontLeft.getSelectedSensorPosition(),
+            m_rearLeft.getSelectedSensorPosition(),
+            m_frontRight.getSelectedSensorPosition(),
+            m_rearRight.getSelectedSensorPosition()));
   }
 
   /**
