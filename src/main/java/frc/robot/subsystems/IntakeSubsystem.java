@@ -33,6 +33,10 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intakeMotor.set(direction ? IntakeConstants.kIntakeSpeed : -IntakeConstants.kIntakeSpeed);
   }
 
+  public void stopIntake() {
+    m_intakeMotor.set(0);
+  }
+
   /**
    * gets the state of the limit switch
    * @return the state of the limit switch
