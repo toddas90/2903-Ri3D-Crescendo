@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -57,6 +58,17 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getSelectedSensorPosition(),
             m_frontRight.getSelectedSensorPosition(),
             m_rearRight.getSelectedSensorPosition()));
+
+    SmartDashboard.putNumber("Front Left Encoder", m_frontLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Rear Left Encoder", m_rearLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Front Right Encoder", m_frontRight.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Rear Right Encoder", m_rearRight.getSelectedSensorPosition());
+
+    SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
+
+    SmartDashboard.putNumber("X", m_odometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("Y", m_odometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("Rotation", m_odometry.getPoseMeters().getRotation().getDegrees());
   }
 
   /**
@@ -67,7 +79,6 @@ public class DriveSubsystem extends SubsystemBase {
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
-
 
   /**
    * Drives the robot at given x, y and theta speeds. Speeds range from [-1, 1] and the linear
