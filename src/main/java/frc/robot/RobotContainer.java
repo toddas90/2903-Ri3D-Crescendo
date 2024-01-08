@@ -64,17 +64,17 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> m_driveSubsystem.setMaxOutput(0.5)))
         .onFalse(new InstantCommand(() -> m_driveSubsystem.setMaxOutput(1)));
 
-    // Configure Y button to intake inwards
+    //  Intake when Y button is held
     new JoystickButton(m_driverController, Button.kY.value)
         .onTrue(new InstantCommand(() -> m_intakeSubsystem.runIntake(true)))
         .onFalse(new InstantCommand(() -> m_intakeSubsystem.stopIntake()));
     
-    // Configure X button to intake outwards (fix later)
+    // Intake outwards when X button is held
     new JoystickButton(m_driverController, Button.kX.value)
         .onTrue(new InstantCommand(() -> m_intakeSubsystem.runIntake(false)))
         .onFalse(new InstantCommand(() -> m_intakeSubsystem.stopIntake()));
 
-    // Configure A button to test shooter
+    // Shooter at 100% when A button is held
     new JoystickButton(m_driverController, Button.kA.value)
         .onTrue(new InstantCommand(() -> m_shooterSubsystem.setShooterSpeed(1)))
         .onFalse(new InstantCommand(() -> m_shooterSubsystem.stopShooter()));
