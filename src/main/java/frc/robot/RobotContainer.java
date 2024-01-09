@@ -106,6 +106,10 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kBack.value)
         .onTrue(m_climbSubsystem.setClimbSolenoid());
 
+    //Extend/retrack arm when B button is pressed 
+    new JoystickButton(m_driverController, Button.kB.value)
+        .onTrue(m_armSubsystem.setArmSolenoid());
+
     // Change arm position based on d-pad direction
     new POVButton(m_driverController, 0)
         .onTrue(m_armSubsystem.setArmPosition(ArmPosition.Speaker));

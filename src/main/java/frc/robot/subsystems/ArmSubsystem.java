@@ -116,6 +116,16 @@ public class ArmSubsystem extends SubsystemBase {
           }, this);
      }
 
+     //toggle arm solenoid
+     public void toggleSolenoid() {
+          m_armSolenoid.toggle();
+        }
+      
+     //extend or retrack arm 
+     public Command setArmSolenoid(){
+          return new InstantCommand(() -> toggleSolenoid(), this);
+     }
+
      @Override
      public void periodic() {
           SmartDashboard.putNumber("Arm Current Angle", getDegrees());
