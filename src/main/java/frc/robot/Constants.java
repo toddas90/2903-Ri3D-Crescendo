@@ -21,6 +21,40 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static class ClimbConstants {
+    public static final int kClimbSolenoidLPort = 0;
+    public static final int kClimbSolenoidRPort = 1;
+  }
+
+  public static class IntakeConstants {
+    public static final int kIntakeMotorPort = 0;
+    public static final int kIntakeSpeed = 1;
+    //public static final int kIntakeLimitSwitchPort = 0;
+  }
+
+  public static class ArmConstants {
+    public static final int kArmMotorPort = 10;
+    public static final int[] kArmEncoderPorts = new int[]{0, 1};
+    public static final int kArmSolenoidLPort = 2;
+    public static final int kArmSolenoidRPort = 3;
+
+    public static double kP = 0.05; 
+    public static double kI = 0; 
+    public static double kD = 0; 
+    public static double kIz = 0; 
+    public static double kFF = 0; 
+    public static double kMaxOutput = 1; 
+    public static double kMinOutput = -1;
+  }
+
+  public static class ShooterConstants {
+    public static final int kShooterMotorLeftPort = 3;
+    public static final int kShooterMotorRightPort = 4;
+    public static final int kShooterSpeed = 1;
+    public static final int kShooterSolenoidLPort = 4;
+    public static final int kShooterSolenoidRPort = 5;
+  }
+
   public static final class DriveConstants {
     public static final int kFrontLeftMotorPort = 13;
     public static final int kRearLeftMotorPort = 15;
@@ -51,5 +85,12 @@ public final class Constants {
     public static final double kPRearLeftVel = 0.5;
     public static final double kPFrontRightVel = 0.5;
     public static final double kPRearRightVel = 0.5;
+
+  }
+  
+  //enum class for shooter solenoid state
+  public enum SolenoidState {
+    UP,
+    DOWN
   }
 }
