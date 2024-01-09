@@ -13,7 +13,7 @@ public class ClimbSubsystem extends SubsystemBase {
   private final DoubleSolenoid m_climbSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,ClimbConstants.kClimbSolenoidLPort, ClimbConstants.kClimbSolenoidRPort);
 
   public ClimbSubsystem() {
-    m_climbSolenoid.set(Value.kForward);
+    m_climbSolenoid.set(Value.kReverse);
   }
 
   @Override

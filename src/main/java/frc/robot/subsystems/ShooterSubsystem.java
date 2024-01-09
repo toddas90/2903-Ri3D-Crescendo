@@ -16,7 +16,6 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SolenoidState;
 
 public class ShooterSubsystem extends SubsystemBase {
-  //private final CANSparkMax m_shootertest = new CANSparkMax(0, MotorType.kBrushless);
   private final CANSparkMax m_shooterLeft = new CANSparkMax(ShooterConstants.kShooterMotorLeftPort, MotorType.kBrushless);
   private final CANSparkMax m_shooterRight = new CANSparkMax(ShooterConstants.kShooterMotorRightPort, MotorType.kBrushless);
 
@@ -24,15 +23,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public ShooterSubsystem() {
     m_shooterSolenoid.set(Value.kForward);
+    m_shooterRight.setInverted(true);
+    m_shooterLeft.setInverted(false);
   }
-
-  // public void setTestShooterSpeed(double speed) {
-  //   m_shootertest.set(speed);
-  // }
-
-  // public void stopTestShooter() {
-  //   m_shootertest.set(0);
-  // }
 
   public void setShooterSpeed(double speed) {
     m_shooterLeft.set(speed);
@@ -55,8 +48,9 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shooter Speed", m_shooterLeft.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Shooter Speed Left", m_shooterLeft.getEncoder().getVelocity());
     SmartDashboard.putBoolean("Shooter Solenoid", m_shooterSolenoid.get() == Value.kForward);
+    SmartDashboard.putNumber("Shooter Speed Right", m_shooterRight.getEncoder().getVelocity());
 
     //SmartDashboard.putNumber("Test Shooter Speed", m_shootertest.getEncoder().getVelocity());
   }
@@ -65,7 +59,15 @@ public class ShooterSubsystem extends SubsystemBase {
     return new RunCommand(() -> setShooterSpeed(ShooterConstants.kShooterSpeed), this);
   }
 
+  public Command stopShooterWheels(){
+    return new RunCommand(() -> setShooterSpeed(0),this);
+  }
+
   public Command setShooterSolenoid(SolenoidState state){
     return new InstantCommand(() -> setSolenoid(state), this);
+  }
+
+  public Command toggleShooterSolenoid(){
+    return new InstantCommand(() -> m_shooterSolenoid.toggle(), this);
   }
 }

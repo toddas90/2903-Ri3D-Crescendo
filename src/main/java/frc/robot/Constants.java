@@ -26,14 +26,16 @@ public final class Constants {
     public static final int kClimbSolenoidRPort = 1;
   }
 
+  //needs assigning 
   public static class IntakeConstants {
-    public static final int kIntakeMotorPort = 0;
-    public static final int kIntakeSpeed = 1;
-    public static final int kIntakeServoPort = 0;
-    public static final int kIntakeServoOut = 0;
-    public static final int kIntakeServoIn = 1;
+    // public static final int kIntakeMotorPort = 0;
+    // public static final int kIntakeSpeed = 1;
+    // public static final int kIntakeServoPort = 0;
+    // public static final int kIntakeServoOut = 0;
+    // public static final int kIntakeServoIn = 1;
   }
 
+  //needs assigning
   public static class ArmConstants {
     public static final int kArmMotorPort = 10;
     public static final int[] kArmEncoderPorts = new int[]{0, 1};
@@ -52,7 +54,7 @@ public final class Constants {
   public static class ShooterConstants {
     public static final int kShooterMotorLeftPort = 3;
     public static final int kShooterMotorRightPort = 4;
-    public static final int kShooterSpeed = 1;
+    public static final double kShooterSpeed = 0.75;
     public static final int kShooterSolenoidLPort = 4;
     public static final int kShooterSolenoidRPort = 5;
   }

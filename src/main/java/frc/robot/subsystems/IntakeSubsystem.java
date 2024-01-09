@@ -14,9 +14,9 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorPort, MotorType.kBrushless); //needs to be changed for brushed motors
+//private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorPort, MotorType.kBrushless); //needs to be changed for brushed motors
 
-  private final Servo m_intakeServo = new Servo(IntakeConstants.kIntakeServoPort);
+ //private final Servo m_intakeServo = new Servo(IntakeConstants.kIntakeServoPort);
 
 
   public IntakeSubsystem() {}
@@ -33,21 +33,21 @@ public class IntakeSubsystem extends SubsystemBase {
   * @param direction the direction the intake motor will run, true for intake, false for outtake
   */
   public void runIntake(boolean direction) {
-    m_intakeMotor.set(direction ? IntakeConstants.kIntakeSpeed : -IntakeConstants.kIntakeSpeed);
+    //m_intakeMotor.set(direction ? IntakeConstants.kIntakeSpeed : -IntakeConstants.kIntakeSpeed);
   }
 
   public void stopIntake() {
-    m_intakeMotor.set(0);
+    //m_intakeMotor.set(0);
   }
 
   //toggle intake servo
   public void setIntakeServo() {
-    m_intakeServo.set(m_intakeServo.get() == IntakeConstants.kIntakeServoOut ? IntakeConstants.kIntakeServoIn : IntakeConstants.kIntakeServoOut);
+  //  m_intakeServo.set(m_intakeServo.get() == IntakeConstants.kIntakeServoOut ? IntakeConstants.kIntakeServoIn : IntakeConstants.kIntakeServoOut);
   }
 
-  public Command toggleIntakeServo(){
-    return new InstantCommand(() -> setIntakeServo(), this);
-  }
+  // public Command toggleIntakeServo(){
+  //  return new InstantCommand(() -> setIntakeServo(), this);
+  // }
 
   /**
    * gets the state of the limit switch

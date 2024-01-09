@@ -100,7 +100,11 @@ public class RobotContainer {
 
     // Shoot sequence when A button is pressed
     new JoystickButton(m_driverController, Button.kA.value)
-        .onTrue(shootSequence);
+        .onTrue(m_shooterSubsystem.runShooterWheels())
+        .onFalse(m_shooterSubsystem.stopShooterWheels());//.onTrue(shootSequence);
+    
+    new JoystickButton(m_driverController, Button.kLeftBumper.value)
+        .onTrue(m_shooterSubsystem.toggleShooterSolenoid());
 
     // Climb when up on the back button is pressed
     new JoystickButton(m_driverController, Button.kBack.value)
@@ -110,8 +114,8 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kB.value)
         .onTrue(m_armSubsystem.setArmSolenoid());
 
-    new JoystickButton(m_driverController, Button.kStart.value)
-        .onTrue(m_intakeSubsystem.toggleIntakeServo());
+    // new JoystickButton(m_driverController, Button.kStart.value)
+    //     .onTrue(m_intakeSubsystem.toggleIntakeServo());
 
     // Change arm position based on d-pad direction
     new POVButton(m_driverController, 0)
