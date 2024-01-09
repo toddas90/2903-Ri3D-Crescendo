@@ -34,7 +34,9 @@ public class ArmSubsystem extends SubsystemBase {
           m_pidController.setFF(ArmConstants.kFF);
           m_pidController.setOutputRange(ArmConstants.kMinOutput, ArmConstants.kMaxOutput);
           // make encoder use degrees instead of rotations
-          m_encoder.setPositionConversionFactor(360.0);
+          m_encoder.setPositionConversionFactor(360.0 / 3.0);
+          // invert motor direction
+          m_armMotor.setInverted(true);
           // Put PID values in SmartDashboard for tuning
           SmartDashboard.putNumber("P Gain", ArmConstants.kP);
           SmartDashboard.putNumber("I Gain", ArmConstants.kI);
