@@ -7,13 +7,12 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkRelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -86,7 +85,7 @@ public class ArmSubsystem extends SubsystemBase {
           SmartDashboard.putNumber("Arm Target Angle", degrees);
      }
 
-     enum ArmPosition {
+     public enum ArmPosition {
           Initial,
           Pickup,
           Amp,
@@ -94,7 +93,7 @@ public class ArmSubsystem extends SubsystemBase {
      }
 
      public Command setArmPosition(ArmPosition pos) {
-          return new RunCommand(() -> {
+          return new InstantCommand(() -> {
                int armAngle;
                switch (pos) {
                case Initial:

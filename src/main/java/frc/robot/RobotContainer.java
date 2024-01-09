@@ -1,7 +1,7 @@
 package frc.robot;
 
 import frc.robot.subsystems.*;
-
+import frc.robot.subsystems.ArmSubsystem.ArmPosition;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.SolenoidState;
 
 /**
@@ -104,6 +105,16 @@ public class RobotContainer {
     // Climb when up on the back button is pressed
     new JoystickButton(m_driverController, Button.kBack.value)
         .onTrue(m_climbSubsystem.setClimbSolenoid());
+
+    // Change arm position based on d-pad direction
+    new POVButton(m_driverController, 0)
+        .onTrue(m_armSubsystem.setArmPosition(ArmPosition.Speaker));
+    new POVButton(m_driverController, 90)
+        .onTrue(m_armSubsystem.setArmPosition(ArmPosition.Amp));
+    new POVButton(m_driverController, 180)
+        .onTrue(m_armSubsystem.setArmPosition(ArmPosition.Pickup));
+    new POVButton(m_driverController, 270)
+        .onTrue(m_armSubsystem.setArmPosition(ArmPosition.Initial));
   }
   
   private double deadzone(double val) {
