@@ -96,19 +96,19 @@ public class ArmSubsystem extends SubsystemBase {
 
      public Command setArmPosition(ArmPosition pos) {
           return new InstantCommand(() -> {
-               int armAngle;
+               double armAngle;
                switch (pos) {
                case Initial:
                     armAngle = 0;
                     break;
                case Pickup:
-                    armAngle = 0;
+                    armAngle = -125.0;
                     break;
                case Amp:
-                    armAngle = 0;
+                    armAngle = -12.0;
                     break;
                case Speaker:
-                    armAngle = 0;
+                    armAngle = -77.0;
                     break;
                default:
                     // Don't do anything

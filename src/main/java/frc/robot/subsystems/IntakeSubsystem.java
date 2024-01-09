@@ -14,7 +14,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
 public class IntakeSubsystem extends SubsystemBase {
-//private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorPort, MotorType.kBrushless); //needs to be changed for brushed motors
+private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorPort, MotorType.kBrushed); //needs to be changed for brushed motors
 
  //private final Servo m_intakeServo = new Servo(IntakeConstants.kIntakeServoPort);
 
@@ -24,8 +24,8 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //SmartDashboard.putBoolean("Intake Switch", getIntakeSwitch());
-    //SmartDashboard.putNumber("Intake Speed", m_intakeMotor.getEncoder().getVelocity());
+    // SmartDashboard.putBoolean("Intake Switch", getIntakeSwitch());
+    // SmartDashboard.putNumber("Intake Speed", m_intakeMotor.getEncoder().getVelocity());
   }
 
   /**
@@ -33,11 +33,11 @@ public class IntakeSubsystem extends SubsystemBase {
   * @param direction the direction the intake motor will run, true for intake, false for outtake
   */
   public void runIntake(boolean direction) {
-    //m_intakeMotor.set(direction ? IntakeConstants.kIntakeSpeed : -IntakeConstants.kIntakeSpeed);
+    m_intakeMotor.set(direction ? IntakeConstants.kIntakeSpeed : -IntakeConstants.kIntakeSpeed);
   }
 
   public void stopIntake() {
-    //m_intakeMotor.set(0);
+    m_intakeMotor.set(0);
   }
 
   //toggle intake servo

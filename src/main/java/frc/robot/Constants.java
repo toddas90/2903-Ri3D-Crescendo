@@ -28,8 +28,8 @@ public final class Constants {
 
   //needs assigning 
   public static class IntakeConstants {
-    // public static final int kIntakeMotorPort = 0;
-    // public static final int kIntakeSpeed = 1;
+    public static final int kIntakeMotorPort = 5;
+    public static final double kIntakeSpeed = 0.85;
     // public static final int kIntakeServoPort = 0;
     // public static final int kIntakeServoOut = 0;
     // public static final int kIntakeServoIn = 1;
@@ -42,8 +42,8 @@ public final class Constants {
     public static final int kArmSolenoidLPort = 2;
     public static final int kArmSolenoidRPort = 3;
 
-    public static double kP = 0.05; 
-    public static double kI = 0; 
+    public static double kP = 0.05;
+    public static double kI = 0.00001;
     public static double kD = 0; 
     public static double kIz = 0; 
     public static double kFF = 0; 

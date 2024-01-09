@@ -26,6 +26,12 @@ public class VisionNetParse extends Thread {
 
     public VisionNetParse() throws SocketException {
         socket = new DatagramSocket(PORT);
+        // Initialize AprilTagData array
+        for (int i = 0; i < curAprilTagData.length; i++) {
+            AprilTagData tag = new AprilTagData();
+            tag.id = i+1;
+            curAprilTagData[i] = tag;
+        }
     }
 
     public void run() {
@@ -41,7 +47,7 @@ public class VisionNetParse extends Thread {
                 // Format as ASCII string
                 String stringData = new String(data, "UTF-8");
                 // Remove brackets around packet data
-                stringData.substring(1, stringData.length()-2);
+                stringData = stringData.trim().substring(1, stringData.length()-2);
                 
                 // Determine what type of data is being received
                 if (stringData.startsWith("APRIL")) {
@@ -62,11 +68,12 @@ public class VisionNetParse extends Thread {
         String[] aprilData = data.split(",");
         // Check data for all 16 AprilTags
         for (int i = 0; i < aprilData.length; i++) {
+            AprilTagData aprilTag = new AprilTagData();
             String[] kvs = aprilData[i].split("|");
             Double px = null, py = null, pz = null, qx = null, 
                     qy = null, qz = null, qw = null;
             // Set ID of current AprilTag we're checking
-            result[i].id = i + 1;
+            aprilTag.id = i + 1;
             // Reach each transform value
             for (String kv : kvs) {
                 String[] values = kv.split(":");
@@ -104,13 +111,14 @@ public class VisionNetParse extends Thread {
             // Create transform if all data is valid
             if (px != null && py != null && pz != null &&
                 qx != null && qy != null && qz != null && qw != null) {
-                result[i].transform = new Transform3d(
+                aprilTag.transform = new Transform3d(
                     new Translation3d(px, py, pz),
                     new Rotation3d(new Quaternion(qw, qx, qy, qz))
                     );
             } else {
-                result[i].transform = null;
+                aprilTag.transform = null;
             }
+            result[i] = aprilTag;
         }
         return result;
     }
