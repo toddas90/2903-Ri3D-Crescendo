@@ -110,6 +110,9 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kB.value)
         .onTrue(m_armSubsystem.setArmSolenoid());
 
+    new JoystickButton(m_driverController, Button.kStart.value)
+        .onTrue(m_intakeSubsystem.toggleIntakeServo());
+
     // Change arm position based on d-pad direction
     new POVButton(m_driverController, 0)
         .onTrue(m_armSubsystem.setArmPosition(ArmPosition.Speaker));

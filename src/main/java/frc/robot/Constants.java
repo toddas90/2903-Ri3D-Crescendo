@@ -29,7 +29,9 @@ public final class Constants {
   public static class IntakeConstants {
     public static final int kIntakeMotorPort = 0;
     public static final int kIntakeSpeed = 1;
-    //public static final int kIntakeLimitSwitchPort = 0;
+    public static final int kIntakeServoPort = 0;
+    public static final int kIntakeServoOut = 0;
+    public static final int kIntakeServoIn = 1;
   }
 
   public static class ArmConstants {
