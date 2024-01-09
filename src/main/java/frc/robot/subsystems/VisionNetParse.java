@@ -1,0 +1,173 @@
+package frc.robot.subsystems;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+
+import org.opencv.core.Rect2d;
+
+import edu.wpi.first.math.geometry.Quaternion;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+
+public class VisionNetParse extends Thread {
+
+    // Vision data fields
+    public AprilTagData[] curAprilTagData = new AprilTagData[16];
+    public NoteData curNoteData = new NoteData();
+
+    private final int BUFFER = 256;
+    private final int PORT = 5800;
+
+    private DatagramSocket socket;
+    private boolean running;
+    private byte[] buf = new byte[BUFFER];
+
+    public VisionNetParse() throws SocketException {
+        socket = new DatagramSocket(PORT);
+    }
+
+    public void run() {
+        running = true;
+
+        // Continuously attempt to receive packet data
+        while(running) {
+            DatagramPacket packet = new DatagramPacket(buf, buf.length);
+            try {
+                socket.receive(packet);
+                byte[] data = packet.getData();
+
+                // Format as ASCII string
+                String stringData = new String(data, "UTF-8");
+                // Remove brackets around packet data
+                stringData.substring(1, stringData.length()-2);
+                
+                // Determine what type of data is being received
+                if (stringData.startsWith("APRIL")) {
+                    curAprilTagData = parseAprilTagData(stringData.substring(6));
+                } else if (stringData.startsWith("NOTE")) {
+                    curNoteData = parseNoteData(stringData.substring(5));
+                }
+            } catch (Exception e) {
+                // Failed to receive packet; try again
+            }
+        }
+    }
+
+    private AprilTagData[] parseAprilTagData(String data) {
+        AprilTagData[] result = new AprilTagData[16];
+        
+        //qx:1231|qy:1321|...,qx:1232|qy:1232,,
+        String[] aprilData = data.split(",");
+        // Check data for all 16 AprilTags
+        for (int i = 0; i < aprilData.length; i++) {
+            String[] kvs = aprilData[i].split("|");
+            Double px = null, py = null, pz = null, qx = null, 
+                    qy = null, qz = null, qw = null;
+            // Set ID of current AprilTag we're checking
+            result[i].id = i + 1;
+            // Reach each transform value
+            for (String kv : kvs) {
+                String[] values = kv.split(":");
+                try {
+                    double num = Double.parseDouble(values[1]);
+                    switch(values[0]) {
+                        case "px":
+                            px = num;
+                            break;
+                        case "py":
+                            py = num;
+                            break;
+                        case "pz":
+                            pz = num;
+                            break;
+                        case "qx":
+                            qx = num;
+                            break;
+                        case "qy":
+                            qy = num;
+                            break;
+                        case "qz":
+                            qz = num;
+                            break;
+                        case "qw":
+                            qw = num;
+                            break;
+                    }
+                } catch (Exception e) {
+                    // Error parsing data, transform is invalid
+                    break;
+                }
+            }
+
+            // Create transform if all data is valid
+            if (px != null && py != null && pz != null &&
+                qx != null && qy != null && qz != null && qw != null) {
+                result[i].transform = new Transform3d(
+                    new Translation3d(px, py, pz),
+                    new Rotation3d(new Quaternion(qw, qx, qy, qz))
+                    );
+            } else {
+                result[i].transform = null;
+            }
+        }
+        return result;
+    }
+
+    private NoteData parseNoteData(String data) {
+        NoteData result = new NoteData();
+        Integer x = null, y = null, w = null, h = null;
+        // Reach bound values
+        for (String kv : data.split("|")) {
+            String[] values = kv.split(":");
+            try {
+                int num = Integer.parseInt(values[1]);
+                switch(values[0]) {
+                    case "x":
+                        x = num;
+                        break;
+                    case "y":
+                        y = num;
+                        break;
+                    case "w":
+                        w = num;
+                        break;
+                    case "h":
+                        h = num;
+                        break;
+                }
+            } catch (Exception e) {
+                // Error parsing data, bounds are invalid
+                break;
+            }
+        }
+
+        // Create bounds if all data is valid
+        if (x != null && y != null && w != null && h != null) {
+            result.bounds = new Rect2d(x, y, w, h);
+        } else {
+            result.bounds = null;
+        }
+
+        return result;
+    }
+
+    public class AprilTagData {
+        /**
+         * The ID of the AprilTag.
+         */
+        public int id;
+        /**
+         * The location of the AprilTag relative to the robot.
+         */
+        public Transform3d transform;
+    }
+
+    public class NoteData {
+        /**
+         * The bounding box of the closest note in view.
+         */
+        public Rect2d bounds;
+    }
+}
