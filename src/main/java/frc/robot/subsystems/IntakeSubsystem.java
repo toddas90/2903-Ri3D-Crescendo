@@ -8,7 +8,7 @@ import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
   //private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorPort, MotorType.kBrushless); //needs to be changed for brushed motors
-  private final DigitalInput m_limitSwitch = new DigitalInput(IntakeConstants.kIntakeLimitSwitchPort);
+  //private final DigitalInput m_limitSwitch = new DigitalInput(IntakeConstants.kIntakeLimitSwitchPort);
   
 
   public IntakeSubsystem() {}
@@ -16,7 +16,7 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Intake Switch", getIntakeSwitch());
+    //SmartDashboard.putBoolean("Intake Switch", getIntakeSwitch());
     //SmartDashboard.putNumber("Intake Speed", m_intakeMotor.getEncoder().getVelocity());
   }
 
@@ -36,7 +36,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * gets the state of the limit switch
    * @return the state of the limit switch
    */
-  public boolean getIntakeSwitch() {
-    return m_limitSwitch.get();
-  }
+  // public boolean getIntakeSwitch() {
+  //   return m_limitSwitch.get();
+  // }
 }
