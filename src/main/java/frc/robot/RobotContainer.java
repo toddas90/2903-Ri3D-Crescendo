@@ -28,6 +28,7 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+  private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final double DEADZONE_THRESH = 0.1;
   
   /*command to run shooter then actuate solenoid 
